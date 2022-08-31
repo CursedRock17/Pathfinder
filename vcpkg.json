@@ -1,0 +1,5 @@
+{
+    "name" : "Pathfinder",
+    "dependencies" : ["sdl2", "glad"],
+    "version" : "1.0"
+}

@@ -1,5 +1,5 @@
 {
-    "name" : "Pathfinder",
-    "dependencies" : ["sdl2", "glad"],
-    "version" : "1.0"
+    "name" : "chip8",
+    "dependencies" : [ "glad", "sdl2" ],
+    "version" : "1.0" 
 }

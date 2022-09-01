@@ -3,6 +3,12 @@
 
 #include <SDL2/SDL.h>
 #include <SDL_video.h>
+#include <SDL.h>
+#include <SDL_timer.h>
+#include <SDL_video.h>
+
+
+#include <iostream>
 
 class GraphicsClass {
 public:
@@ -12,6 +18,7 @@ GraphicsClass();
 
 void Graphics_Loop();
 bool Get_Should_Stop();
+void Check_Status();
 
 private:
 
@@ -22,14 +29,13 @@ void Graphics_Terminate();
 //Helper Functions
 void Graphics_Update();
 void Add_Delay();
-void Check_Status();
 
 
 //Window Settings for SDL
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
-int WINDOW_WIDTH = 640;
-int WINDOW_HEIGHT = 320;
+int WINDOW_WIDTH = 1024;
+int WINDOW_HEIGHT = 768;
 
 //SDL Objects
 SDL_Rect Pixel;

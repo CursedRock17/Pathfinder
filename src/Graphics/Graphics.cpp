@@ -1,7 +1,4 @@
 #include "Graphics.h"
-#include <SDL.h>
-#include <SDL_timer.h>
-#include <SDL_video.h>
 
 GraphicsClass::GraphicsClass()
 {
@@ -37,8 +34,8 @@ void GraphicsClass::Add_Delay()
 
 void GraphicsClass::Graphics_Update()
 {
-    for(int x = 0; x < 32; ++x){
-        for(int y = 0; y < 16; ++y){
+    for(int x = 0; x < 64; ++x){
+        for(int y = 0; y < 32; ++y){
             
             //Create a copy of each pixel and displace it by PIXEL_SIZE
             Pixel.x = 15 * x;
@@ -58,6 +55,7 @@ void GraphicsClass::Graphics_Init()
 {
     window = SDL_CreateWindow("Pathfinder", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_RENDERER_ACCELERATED);
     renderer = SDL_CreateRenderer(window, -1, 0);
+
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);

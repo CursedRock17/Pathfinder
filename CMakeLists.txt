@@ -11,6 +11,7 @@ add_subdirectory(src/Graphics)
 
 target_link_libraries(${PROJECT_NAME}
 PUBLIC
+src
 Graphics
 )
 

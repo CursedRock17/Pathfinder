@@ -34,6 +34,8 @@ void GraphicsClass::Add_Delay()
 
 void GraphicsClass::Graphics_Update()
 {
+
+    //Use this to check the route and separate a normal function
     for(int x = 0; x < 64; ++x){
         for(int y = 0; y < 32; ++y){
             

@@ -34,8 +34,8 @@ void Add_Delay();
 //Window Settings for SDL
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
-int WINDOW_WIDTH = 1024;
-int WINDOW_HEIGHT = 768;
+int WINDOW_WIDTH = 960;
+int WINDOW_HEIGHT = 480;
 
 //SDL Objects
 SDL_Rect Pixel;

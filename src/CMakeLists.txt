@@ -1,1 +1,1 @@
-add_library(src bob.cpp)
+add_library(src Path.cpp)

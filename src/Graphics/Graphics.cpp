@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include <SDL_render.h>
 
 GraphicsClass::GraphicsClass()
 {
@@ -20,6 +21,7 @@ void GraphicsClass::Graphics_Loop()
 
     //Go through the size of the graphics
     Graphics_Update();
+    //Draw_Nodes();
 
     SDL_RenderPresent(renderer);
     //Check to make sure the window needs to stay up
@@ -42,8 +44,13 @@ void GraphicsClass::Graphics_Update()
             //Create a copy of each pixel and displace it by PIXEL_SIZE
             Pixel.x = 15 * x;
             Pixel.y = 15 * y;
-        
+
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
+        
+            if(p.get_coord(x, y) == 1){
+                //We check if the coordinate is marked as needing to be drawn on
+                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
+            }
 
             //Fill the pxiels will whatever color needs to be set for out path
             SDL_RenderDrawRect(renderer, &Pixel);
@@ -66,6 +73,26 @@ void GraphicsClass::Graphics_Init()
     //Constant Size for the Pixel
     Pixel.h = 14;
     Pixel.w = 14;
+
+    Create_Nodes();
+}
+
+
+void GraphicsClass::Create_Nodes()
+{   
+    p.create_coord(0, 3);
+    p.create_coord(26, 15);
+}
+
+void GraphicsClass::Draw_Nodes()
+{
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
+
+    for(const auto& node : Nodes){
+            //Fill the pxiels will whatever color needs to be set for out path
+            SDL_RenderDrawRect(renderer, &node);
+            SDL_RenderFillRect(renderer, &node);
+    }
 
 }
 

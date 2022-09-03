@@ -7,6 +7,7 @@
 #include <SDL_timer.h>
 #include <SDL_video.h>
 
+#include "../Path.h"
 
 #include <iostream>
 
@@ -20,6 +21,7 @@ void Graphics_Loop();
 bool Get_Should_Stop();
 void Check_Status();
 
+
 private:
 
 //The main functions for the SDL
@@ -30,18 +32,26 @@ void Graphics_Terminate();
 void Graphics_Update();
 void Add_Delay();
 
+//Setting up Points
+void Create_Nodes();
+void Draw_Nodes();
 
 //Window Settings for SDL
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
-int WINDOW_WIDTH = 960;
-int WINDOW_HEIGHT = 480;
+static constexpr int WINDOW_WIDTH = 960;
+static constexpr int WINDOW_HEIGHT = 480;
 
 //SDL Objects
 SDL_Rect Pixel;
+std::vector<SDL_Rect> Nodes;
+
 SDL_Event event;
 
 bool should_stop = false;
+
+//Need to have access to all the pathes so we can draw them
+Path p;
 
 };
 

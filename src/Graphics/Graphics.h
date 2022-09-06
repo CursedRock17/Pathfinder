@@ -8,6 +8,7 @@
 #include <SDL_video.h>
 
 #include "../Path.h"
+#include "../Node.h"
 
 #include <iostream>
 
@@ -33,14 +34,17 @@ void Graphics_Update();
 void Add_Delay();
 
 //Setting up Points
-void Create_Nodes();
-void Draw_Nodes();
+void Setup_Nodes();
+void Allocate_Nodes();
 
 //Window Settings for SDL
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
 static constexpr int WINDOW_WIDTH = 960;
 static constexpr int WINDOW_HEIGHT = 480;
+
+unsigned short MapWidth = 64;
+unsigned short MapHeight = 32;
 
 //SDL Objects
 SDL_Rect Pixel;
@@ -52,7 +56,7 @@ bool should_stop = false;
 
 //Need to have access to all the pathes so we can draw them
 Path p;
-
+Node dummy_node;
 };
 
 #endif

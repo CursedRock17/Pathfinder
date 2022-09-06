@@ -21,7 +21,6 @@ void GraphicsClass::Graphics_Loop()
 
     //Go through the size of the graphics
     Graphics_Update();
-    //Draw_Nodes();
 
     SDL_RenderPresent(renderer);
     //Check to make sure the window needs to stay up
@@ -38,26 +37,37 @@ void GraphicsClass::Graphics_Update()
 {
 
     //Use this to check the route and separate a normal function
-    for(int x = 0; x < 64; ++x){
-        for(int y = 0; y < 32; ++y){
+        for(auto node : p.block_nodes){
             
-            //Create a copy of each pixel and displace it by PIXEL_SIZE
-            Pixel.x = 15 * x;
-            Pixel.y = 15 * y;
+            //We already have the coordinate data stored in the Node Class so we can just use that
+            Pixel.x = 15 * node.x_coord;
+            Pixel.y = 15 * node.y_coord;
 
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
-        
-            if(p.get_coord(x, y) == 1){
-                //We check if the coordinate is marked as needing to be drawn on
+            //Create a loop that checks through each thing to see if it's become an obstacle
+            if(node.obstacle){
+                //Make obstacles light blue
+                SDL_SetRenderDrawColor(renderer, 8, 197, 255, 1);
+            }
+
+            else if(node.x_coord == p.start_node->x_coord && node.y_coord == p.start_node->y_coord){
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
             }
 
+            else if(node.x_coord == p.end_node->x_coord && node.y_coord == p.end_node->y_coord){
+                SDL_SetRenderDrawColor(renderer, 0, 255, 0, 1);
+            }
+
+            else {
+                //Defualt Squares can be white
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
+            }
             //Fill the pxiels will whatever color needs to be set for out path
             SDL_RenderDrawRect(renderer, &Pixel);
             SDL_RenderFillRect(renderer, &Pixel);
 
         }
-    }
+        
+
 }
 
 void GraphicsClass::Graphics_Init()
@@ -74,27 +84,61 @@ void GraphicsClass::Graphics_Init()
     Pixel.h = 14;
     Pixel.w = 14;
 
-    Create_Nodes();
+    Setup_Nodes();
 }
 
+void GraphicsClass::Setup_Nodes()
+{  
 
-void GraphicsClass::Create_Nodes()
-{   
-    p.create_coord(0, 3);
-    p.create_coord(26, 15);
-}
+    for(int x = 0; x < MapWidth; x++){
+        for(int y = 0; y < MapHeight; y++){
+            
+            //Create a copy of each pixel and displace it by PIXEL_SIZE            
+            Pixel.x = 15 * x;
+            Pixel.y = 15 * y;
 
-void GraphicsClass::Draw_Nodes()
-{
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
 
-    for(const auto& node : Nodes){
+            //Set A Basic state for all of the block_nodes
+            p.block_nodes[y * MapWidth + x].visited = false;
+            p.block_nodes[y * MapWidth + x].obstacle = false;
+            p.block_nodes[y * MapWidth + x].x_coord = x;
+            p.block_nodes[y * MapWidth + x].y_coord = y;
+            p.block_nodes[y * MapWidth + x].parent = nullptr;
+
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
+        
+
             //Fill the pxiels will whatever color needs to be set for out path
-            SDL_RenderDrawRect(renderer, &node);
-            SDL_RenderFillRect(renderer, &node);
+            SDL_RenderDrawRect(renderer, &Pixel);
+            SDL_RenderFillRect(renderer, &Pixel);
+        }
     }
 
+    //These have to be split because we need the data for pointers
+    for(int x = 0; x < MapWidth; ++x){
+        for(int y = 0; y < MapHeight; ++y){
+
+            //We need to make sure each of these block_nodes has filled out neighbors and that we don't have block_nodes that dont exist
+            if(y > 0)
+                p.block_nodes[y * MapWidth + x].neighbors.push_back(&p.block_nodes[(y - 1) * MapWidth + (x)]);
+            if(y < MapHeight - 1)
+                p.block_nodes[y * MapWidth + x].neighbors.push_back(&p.block_nodes[(y + 1) * MapWidth + (x)]);
+            if(x > 0)
+                p.block_nodes[y * MapWidth + x].neighbors.push_back(&p.block_nodes[(y) * MapWidth + (x - 1)]);
+            if(x < MapWidth -1)
+                p.block_nodes[y * MapWidth + x].neighbors.push_back(&p.block_nodes[(y) * MapWidth + (x + 1)]);
+
+        }
+    }
+
+
+    //After we fill out the basic information for each node and it's surrounding we need to have a starting and ending node
+    p.start_node = &p.block_nodes[(MapHeight / 2) * MapWidth + 1];
+    p.end_node = &p.block_nodes[(MapHeight / 2) * MapWidth + MapWidth - 2];
+    
+
 }
+
 
 void GraphicsClass::Check_Status()
 {

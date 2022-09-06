@@ -40,7 +40,6 @@ void GraphicsClass::Graphics_Update()
 
     //Use this to check the route and separate a normal function
         for(auto node : p.block_nodes){
-            
             //We already have the coordinate data stored in the Node Class so we can just use that
             Pixel.x = 15 * node.x_coord;
             Pixel.y = 15 * node.y_coord;
@@ -79,6 +78,16 @@ void GraphicsClass::Graphics_Update()
             while(pathing->parent != nullptr)
             {
                 //Need to draw a path to the location
+
+                //Set the points that are apart of the path to yellow
+                //Can easily get each points x_coord and set it for the pixel
+                Pixel.x = 15 * pathing->x_coord;
+                Pixel.y = 15 * pathing->y_coord;
+
+                SDL_SetRenderDrawColor(renderer, 247, 255, 20, 1);
+
+                SDL_RenderDrawRect(renderer, &Pixel);
+                SDL_RenderFillRect(renderer, &Pixel);
 
                 pathing = pathing->parent;
             }

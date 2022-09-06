@@ -39,6 +39,7 @@ void Path::create_path()
     start_node->local_val = 0.0f;
     start_node->global_val = heuristic(current_node, end_node);
 
+    std::list<Node*> NodesToCheck;
     NodesToCheck.push_back(start_node);
 
     //Make sure there's still a reason to continue moving through the search

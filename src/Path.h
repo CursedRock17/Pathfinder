@@ -33,9 +33,6 @@ void create_path();
 
 private:
 
-std::list<Node*> NodesToCheck;
-
-
 };
 
 #endif

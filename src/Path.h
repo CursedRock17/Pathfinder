@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 #include <list>
+#include <cmath>
 #include <array>
 
 //Get our Node Structure
@@ -31,6 +32,10 @@ Node* end_node = nullptr;
 void create_path();
 
 private:
+
+std::list<Node*> NodesToCheck;
+
+
 };
 
 #endif

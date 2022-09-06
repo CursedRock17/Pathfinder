@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <vector>
+#include <cfloat>
 
 class Node {
     public:
@@ -14,8 +15,8 @@ class Node {
     bool visited = false;
     bool obstacle = false;
 
-    int local_val = INT_MAX;
-    int global_val = INT_MAX;
+    float local_val = FLT_MAX;
+    float global_val = FLT_MAX;
 
 
     std::vector<Node*> neighbors;

@@ -1,5 +1,7 @@
 #include "Graphics.h"
+#include <SDL_events.h>
 #include <SDL_render.h>
+#include <SDL_scancode.h>
 
 GraphicsClass::GraphicsClass()
 {
@@ -49,12 +51,16 @@ void GraphicsClass::Graphics_Update()
                 SDL_SetRenderDrawColor(renderer, 8, 197, 255, 1);
             }
 
-            else if(node.x_coord == p.start_node->x_coord && node.y_coord == p.start_node->y_coord){
+            //Have to check this because it;s easier than checking the whole structure, at least for starting and ending nodes
+            else if(node.x_coord == p.start_node->x_coord && node.y_coord == p.start_node->y_coord)
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
-            }
 
             else if(node.x_coord == p.end_node->x_coord && node.y_coord == p.end_node->y_coord){
                 SDL_SetRenderDrawColor(renderer, 0, 255, 0, 1);
+            }
+
+            else if(node.visited){
+                SDL_SetRenderDrawColor(renderer, 0, 0, 255, 1);  
             }
 
             else {
@@ -67,6 +73,16 @@ void GraphicsClass::Graphics_Update()
 
         }
         
+        if(p.end_node != nullptr)
+        {
+            Node* pathing = p.end_node;
+            while(pathing->parent != nullptr)
+            {
+                //Need to draw a path to the location
+
+                pathing = pathing->parent;
+            }
+        }
 
 }
 
@@ -107,7 +123,6 @@ void GraphicsClass::Setup_Nodes()
 
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 1);
         
-
             //Fill the pxiels will whatever color needs to be set for out path
             SDL_RenderDrawRect(renderer, &Pixel);
             SDL_RenderFillRect(renderer, &Pixel);
@@ -135,18 +150,38 @@ void GraphicsClass::Setup_Nodes()
     //After we fill out the basic information for each node and it's surrounding we need to have a starting and ending node
     p.start_node = &p.block_nodes[(MapHeight / 2) * MapWidth + 1];
     p.end_node = &p.block_nodes[(MapHeight / 2) * MapWidth + MapWidth - 2];
-    
-
 }
 
 
 void GraphicsClass::Check_Status()
 {
+
+    //A General Keystate for our keyboard input
+    const Uint8 *key_state = SDL_GetKeyboardState(NULL);
+
     while (SDL_PollEvent(&event))
     {
         if(event.type == SDL_QUIT){
             should_stop = true;
         }
+
+        if(event.type == SDL_MOUSEBUTTONDOWN){
+            //Create an obstacle or move points to these points
+            if (key_state[SDL_SCANCODE_LSHIFT]) {
+                std::cout << "move start" << std::endl;
+            }
+
+            else if(key_state[SDL_SCANCODE_TAB]){
+                std::cout << "move end" << std::endl;
+            }
+
+            else if(key_state[SDL_SCANCODE_SPACE]){
+                std::cout << "Create Obstacle" << std::endl;
+            }
+
+            p.create_path();
+        }
+
     }
     
 }
@@ -162,3 +197,10 @@ void GraphicsClass::Graphics_Terminate()
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
+
+
+/*
+
+
+
+*/

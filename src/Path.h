@@ -27,11 +27,15 @@ std::array<Node, 2048> block_nodes;
 //Need a certain start and stop
 Node* start_node = nullptr;
 Node* end_node = nullptr;
+Node* current_node = nullptr;
 
 //use the A* search to find stuff
 void create_path();
 
 private:
+
+unsigned short grid_height = 32;
+unsigned short grid_length = 64;
 
 };
 

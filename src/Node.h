@@ -16,8 +16,8 @@ class Node {
     bool obstacle = false;
 
     float local_val = FLT_MAX;
+    //Global Val is the f(x)
     float global_val = FLT_MAX;
-
 
     std::vector<Node*> neighbors;
     Node* parent = nullptr;

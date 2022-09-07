@@ -41,8 +41,8 @@ void GraphicsClass::Graphics_Update()
     //Use this to check the route and separate a normal function
         for(auto node : p.block_nodes){
             //We already have the coordinate data stored in the Node Class so we can just use that
-            Pixel.x = 15 * node.x_coord;
-            Pixel.y = 15 * node.y_coord;
+            Pixel.x = PixelSize * node.x_coord;
+            Pixel.y = PixelSize * node.y_coord;
 
             //Create a loop that checks through each thing to see if it's become an obstacle
             if(node.obstacle){
@@ -55,7 +55,7 @@ void GraphicsClass::Graphics_Update()
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
 
             else if(node.x_coord == p.end_node->x_coord && node.y_coord == p.end_node->y_coord){
-                SDL_SetRenderDrawColor(renderer, 0, 255, 0, 1);
+                SDL_SetRenderDrawColor(renderer, 15, 97, 48, 1);
             }
 
             else if(node.visited){
@@ -81,10 +81,14 @@ void GraphicsClass::Graphics_Update()
 
                 //Set the points that are apart of the path to yellow
                 //Can easily get each points x_coord and set it for the pixel
-                Pixel.x = 15 * pathing->x_coord;
-                Pixel.y = 15 * pathing->y_coord;
+                Pixel.x = PixelSize * pathing->x_coord;
+                Pixel.y = PixelSize * pathing->y_coord;
 
                 SDL_SetRenderDrawColor(renderer, 247, 255, 20, 1);
+
+                //Keep the end_node as green
+                if(pathing == p.end_node)
+                    SDL_SetRenderDrawColor(renderer, 15, 97, 48, 1);
 
                 SDL_RenderDrawRect(renderer, &Pixel);
                 SDL_RenderFillRect(renderer, &Pixel);
@@ -119,8 +123,8 @@ void GraphicsClass::Setup_Nodes()
         for(int y = 0; y < MapHeight; y++){
             
             //Create a copy of each pixel and displace it by PIXEL_SIZE            
-            Pixel.x = 15 * x;
-            Pixel.y = 15 * y;
+            Pixel.x = PixelSize * x;
+            Pixel.y = PixelSize * y;
 
 
             //Set A Basic state for all of the block_nodes
@@ -167,6 +171,8 @@ void GraphicsClass::Check_Status()
 
     //A General Keystate for our keyboard input
     const Uint8 *key_state = SDL_GetKeyboardState(NULL);
+    int mouse_x, mouse_y;
+    Uint32 mouse_state = SDL_GetMouseState(&mouse_x, &mouse_y);
 
     while (SDL_PollEvent(&event))
     {
@@ -174,18 +180,25 @@ void GraphicsClass::Check_Status()
             should_stop = true;
         }
 
+        //When checking position, just divide by PixelSize and round down for the pixel square
+        int mouse_hover_x = floor(mouse_x / PixelSize);
+        int mouse_hover_y = floor(mouse_y / PixelSize);
+
+        //These node processes are very cheap due to pointers
         if(event.type == SDL_MOUSEBUTTONDOWN){
-            //Create an obstacle or move points to these points
             if (key_state[SDL_SCANCODE_LSHIFT]) {
-                std::cout << "move start" << std::endl;
+                //Can just set the start node to wherever our mouse is
+                p.start_node = &p.block_nodes[mouse_hover_y * MapWidth + mouse_hover_x];
             }
 
             else if(key_state[SDL_SCANCODE_TAB]){
-                std::cout << "move end" << std::endl;
+                //Can just set the end node to wherever our mouse is
+                p.end_node = &p.block_nodes[mouse_hover_y * MapWidth + mouse_hover_x];
             }
 
             else if(key_state[SDL_SCANCODE_SPACE]){
-                std::cout << "Create Obstacle" << std::endl;
+                //Create an obstacle, as the flip of whatever the value here is
+                p.block_nodes[mouse_hover_y * MapWidth + mouse_hover_x].obstacle = !p.block_nodes[mouse_hover_y * MapWidth + mouse_hover_x].obstacle;
             }
 
             p.create_path();

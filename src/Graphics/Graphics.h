@@ -45,6 +45,7 @@ static constexpr int WINDOW_HEIGHT = 480;
 
 unsigned short MapWidth = 64;
 unsigned short MapHeight = 32;
+unsigned short PixelSize = 15;
 
 //SDL Objects
 SDL_Rect Pixel;

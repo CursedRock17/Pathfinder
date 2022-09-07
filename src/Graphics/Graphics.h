@@ -35,7 +35,6 @@ void Add_Delay();
 
 //Setting up Points
 void Setup_Nodes();
-void Allocate_Nodes();
 
 //Window Settings for SDL
 SDL_Window* window = nullptr;
@@ -49,15 +48,12 @@ unsigned short PixelSize = 15;
 
 //SDL Objects
 SDL_Rect Pixel;
-std::vector<SDL_Rect> Nodes;
-
 SDL_Event event;
 
 bool should_stop = false;
 
 //Need to have access to all the pathes so we can draw them
 Path p;
-Node dummy_node;
 };
 
 #endif

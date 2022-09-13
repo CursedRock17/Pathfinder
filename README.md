@@ -1,6 +1,8 @@
 # Pathfinder
 
-Create a simple mapping programming using the A* search algorithm
+This will be a robotics based library in C++ for the multiple search algorithms of targets
+
+### A Goal of this library would be able to have the robot as the starting node
 
 # Used - 
 SDL Library

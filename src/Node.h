@@ -14,7 +14,7 @@ class Node {
     //Sample to see if it needs to go back over
     bool visited = false;
     bool obstacle = false;
-
+    
     //Global Val is the f(x)
     float global_val = FLT_MAX;
     float local_val = FLT_MAX;

@@ -9,12 +9,12 @@ void Path::create_dijkstra()
     for(int x = 0; x < grid_length; x++)
         for(int y = 0; y < grid_height; y++){
             block_nodes.at(y * grid_length + x).local_val = INFINITY;
-            block_nodes.at(y * grid_length + x).global_val = INFINITY;
             block_nodes.at(y * grid_length + x).visited = false;
             block_nodes.at(y * grid_length + x).parent = nullptr;
             
             unvisited_nodes.push_back(&block_nodes.at(y * grid_length + x));
         }
+
 
 
     //Begin the list by setting uo the first node, will later be the robot
@@ -23,8 +23,7 @@ void Path::create_dijkstra()
     start_node->local_val = 0;
     current_node = start_node;   
 
-    unvisited_nodes.push_front(current_node);
-
+    unvisited_nodes.sort([](Node* rhs, Node* lhs){ return lhs->local_val > rhs->local_val; } );
     /*
     For current node, check its unvisited neighbors get the local_val
     if the new value is smaller than the old, replace it
@@ -38,20 +37,22 @@ void Path::create_dijkstra()
             //At Each neighbor we need to see if they're total tenative distnace is more
             //Than the temporary one, we want the smallest distance possible and all lengths are 1
 
-            float tenative_distance = current_node->local_val + 1;
-            if(tenative_distance < u_node->local_val)
+            float tenative_distance = current_node->local_val + 1.0f;
+            if(tenative_distance < u_node->local_val){
                 u_node->local_val = tenative_distance;
+                u_node->parent = current_node;
+                }
             }
         }
         //After we go through this node's neighbors we can safe mark it as visited
         //We then pick a new current node in the smallest tenative distance
         current_node->visited = true;
+
         unvisited_nodes.pop_front();
 
         //We need to sort to the smallest distance to the front
-        unvisited_nodes.sort([](Node* rhs, Node* lhs){ return lhs->global_val < rhs->global_val; } );
+        unvisited_nodes.sort([](Node* rhs, Node* lhs){ return lhs->local_val > rhs->local_val; } );
         current_node = unvisited_nodes.front();
-
     }
 
 }

@@ -23,5 +23,13 @@ class Node {
     Node* parent = nullptr;
 };
 
+class A_Node : public Node {
+    //Global Val is the f(x)
+    //float global_val = FLT_MAX;
+    //float local_val = FLT_MAX;
+
+
+};
+
 
 #endif

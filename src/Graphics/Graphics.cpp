@@ -201,7 +201,24 @@ void GraphicsClass::Check_Status()
                 p.block_nodes[mouse_hover_y * MapWidth + mouse_hover_x].obstacle = !p.block_nodes[mouse_hover_y * MapWidth + mouse_hover_x].obstacle;
             }
 
-            p.create_path();
+            switch (chosen_algorithm)
+            {
+            case 0:
+            //Run the A-Star search algo:
+                p.create_astar();
+                break;
+            
+            case 1:
+            //Run the Dijkstra Algo
+                p.create_dijkstra();
+                break;
+
+            default:
+            //We need an algo
+                std::cout << chosen_algorithm << std::endl;
+                break;
+            }
+
         }
 
     }

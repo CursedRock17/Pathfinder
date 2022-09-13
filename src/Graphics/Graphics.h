@@ -22,6 +22,7 @@ void Graphics_Loop();
 bool Get_Should_Stop();
 void Check_Status();
 
+std::uint8_t chosen_algorithm{0};
 
 private:
 
@@ -42,15 +43,16 @@ SDL_Renderer* renderer = nullptr;
 static constexpr int WINDOW_WIDTH = 960;
 static constexpr int WINDOW_HEIGHT = 480;
 
-unsigned short MapWidth = 64;
-unsigned short MapHeight = 32;
-unsigned short PixelSize = 15;
+unsigned short MapWidth{64};
+unsigned short MapHeight{32};
+unsigned short PixelSize{15};
 
 //SDL Objects
 SDL_Rect Pixel;
 SDL_Event event;
 
-bool should_stop = false;
+bool should_stop{false};
+
 
 //Need to have access to all the pathes so we can draw them
 Path p;

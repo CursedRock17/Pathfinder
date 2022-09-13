@@ -1,18 +1,62 @@
 #include "Path.h"
 
-unsigned short Path::get_coord(unsigned short x_coord, unsigned short y_coord)
+void Path::create_dijkstra()
 {
-   //No need to have anymore if statements
-    return 0;
+    //Create a set that holds our unvisited nodes
+    std::list<Node*> unvisited_nodes;
+
+    //Clear the block_nodes excess features
+    for(int x = 0; x < grid_length; x++)
+        for(int y = 0; y < grid_height; y++){
+            block_nodes.at(y * grid_length + x).local_val = INFINITY;
+            block_nodes.at(y * grid_length + x).global_val = INFINITY;
+            block_nodes.at(y * grid_length + x).visited = false;
+            block_nodes.at(y * grid_length + x).parent = nullptr;
+            
+            unvisited_nodes.push_back(&block_nodes.at(y * grid_length + x));
+        }
+
+
+    //Begin the list by setting uo the first node, will later be the robot
+    //Local value is tentative distance value (length of path plus length aka 1)
+
+    start_node->local_val = 0;
+    current_node = start_node;   
+
+    unvisited_nodes.push_front(current_node);
+
+    /*
+    For current node, check its unvisited neighbors get the local_val
+    if the new value is smaller than the old, replace it
+    */
+
+    while(!unvisited_nodes.empty() && !end_node->visited){
+        for(auto& u_node : current_node->neighbors){
+            //We will go through the current nodes neighbors and check if they haven't been visited yet
+            
+            if(!u_node->visited){
+            //At Each neighbor we need to see if they're total tenative distnace is more
+            //Than the temporary one, we want the smallest distance possible and all lengths are 1
+
+            float tenative_distance = current_node->local_val + 1;
+            if(tenative_distance < u_node->local_val)
+                u_node->local_val = tenative_distance;
+            }
+        }
+        //After we go through this node's neighbors we can safe mark it as visited
+        //We then pick a new current node in the smallest tenative distance
+        current_node->visited = true;
+        unvisited_nodes.pop_front();
+
+        //We need to sort to the smallest distance to the front
+        unvisited_nodes.sort([](Node* rhs, Node* lhs){ return lhs->global_val < rhs->global_val; } );
+        current_node = unvisited_nodes.front();
+
+    }
+
 }
 
-
-void Path::create_coord(unsigned short x_coord, unsigned short y_coord)
-{
-}
-
-
-void Path::create_path()
+void Path::create_astar()
 {
 
     //Clear the block_nodes excess features

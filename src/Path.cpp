@@ -1,5 +1,6 @@
 #include "Path.h"
 
+
 void Path::create_dijkstra()
 {
     //Create a set that holds our unvisited nodes
@@ -33,7 +34,7 @@ void Path::create_dijkstra()
         for(auto& u_node : current_node->neighbors){
             //We will go through the current nodes neighbors and check if they haven't been visited yet
             
-            if(!u_node->visited){
+            if(!u_node->visited && !u_node->obstacle){
             //At Each neighbor we need to see if they're total tenative distnace is more
             //Than the temporary one, we want the smallest distance possible and all lengths are 1
 
@@ -129,5 +130,23 @@ void Path::create_astar()
         }
 
     }
+
+}
+
+void Path::create_dstar()
+{
+    //Create our nodes to be evaluated list
+    std::list<Node*> open_list;
+
+    //Clear the block_nodes excess features
+    for(int x = 0; x < grid_length; x++)
+        for(int y = 0; y < grid_height; y++){
+            block_nodes.at(y * grid_length + x).local_val = INFINITY;
+            block_nodes.at(y * grid_length + x).visited = false;
+            block_nodes.at(y * grid_length + x).parent = nullptr;
+            
+        }
+
+    
 
 }

@@ -27,10 +27,8 @@ Node* current_node = nullptr;
 
 // ---------------------- Search Alogirthms ------------------- //
 void create_astar();
-
 void create_dijkstra();
-
-
+void create_dstar();
 
 // ---------------------- Search Alogirthms ------------------- //
 private:

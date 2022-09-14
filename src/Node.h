@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <cfloat>
+#include <string>
 
 class Node {
     public:
@@ -12,9 +13,9 @@ class Node {
     unsigned short y_coord;
     
     //Sample to see if it needs to go back over
-    bool visited = false;
-    bool obstacle = false;
-    
+    bool visited{false};
+    bool obstacle{false};
+
     //Global Val is the f(x)
     float global_val = FLT_MAX;
     float local_val = FLT_MAX;
@@ -23,12 +24,10 @@ class Node {
     Node* parent = nullptr;
 };
 
-class A_Node : public Node {
-    //Global Val is the f(x)
-    //float global_val = FLT_MAX;
-    //float local_val = FLT_MAX;
-
-
+class D_Node : public Node {
+    //In the D Star algo each node needs a list state
+    public:
+    std::string NodeState{"NEW"};
 };
 
 

@@ -7,6 +7,7 @@
 #include <list>
 #include <cmath>
 #include <array>
+#include <queue>
 
 //Get our Node Structure
 #include "Node.h"
@@ -29,6 +30,7 @@ Node* current_node = nullptr;
 void create_astar();
 void create_dijkstra();
 void create_dstar();
+void create_breadth_first();
 
 // ---------------------- Search Alogirthms ------------------- //
 private:

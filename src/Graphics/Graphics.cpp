@@ -212,6 +212,15 @@ void GraphicsClass::Check_Status()
             //Run the Dijkstra Algo
                 p.create_dijkstra();
                 break;
+            case 2: 
+            //Run the DStar Algo
+                p.create_dstar();
+                break;
+
+            case 3: 
+            //Run the BFS Algo
+                p.create_breadth_first();
+                break;
 
             default:
             //We need an algo
@@ -238,6 +247,31 @@ void GraphicsClass::Graphics_Terminate()
 }
 
 
+int GraphicsClass::Choose_Algorithm(std::string number)
+{
+    if(number == "0"){
+        chosen_algorithm = 0;
+        return 0;
+    }
+
+    else if(number == "1"){
+        chosen_algorithm = 1;
+        return 1;
+    }
+
+    else if(number == "2"){
+        chosen_algorithm = 2;
+        return 2;
+    }
+
+    else if(number == "3"){
+        chosen_algorithm = 3;
+        return 3;
+    }
+
+    return -1;
+
+}
 /*
 
 

@@ -137,6 +137,7 @@ void Path::create_dstar()
 {
     //Create our nodes to be evaluated list
     std::list<Node*> open_list;
+    D_Node bob;
 
     //Clear the block_nodes excess features
     for(int x = 0; x < grid_length; x++)
@@ -144,9 +145,44 @@ void Path::create_dstar()
             block_nodes.at(y * grid_length + x).local_val = INFINITY;
             block_nodes.at(y * grid_length + x).visited = false;
             block_nodes.at(y * grid_length + x).parent = nullptr;
-            
+               
         }
 
-    
+}
+
+
+void Path::create_breadth_first()
+{
+    std::queue<Node*> node_q;
+
+    //Clear the block_nodes excess features
+    for(int x = 0; x < grid_length; x++)
+        for(int y = 0; y < grid_height; y++){
+            block_nodes.at(y * grid_length + x).local_val = INFINITY;
+            block_nodes.at(y * grid_length + x).visited = false;
+            block_nodes.at(y * grid_length + x).parent = nullptr;
+               
+        }
+
+    start_node->visited = true;
+    node_q.emplace(start_node);
+
+
+    while(!node_q.empty()){
+        current_node = node_q.front();
+        node_q.pop();
+        //Found the end node make the path or smthing
+        if(current_node == end_node)
+            break;
+
+        for(auto& neighbor_node : current_node->neighbors){
+            //Check all the neighbors as we expand outward
+            if(!neighbor_node->visited && !neighbor_node->obstacle){
+                neighbor_node->visited = true;
+                neighbor_node->parent = current_node;
+                node_q.emplace(neighbor_node);
+            }
+        }
+    }
 
 }

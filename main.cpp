@@ -4,9 +4,11 @@
 int main(int argc, char* argv[])
 {
     GraphicsClass g;
+    std::string number_algo;
 
-    std::cout << "Please Choose an Algorithm Number, this will be fixed later" << std::endl;
-    g.chosen_algorithm = 1;
+    std::cout << "Please Choose an Algorithm Number: " << std::endl;
+    std::cin >> number_algo;
+    g.Choose_Algorithm(number_algo);
 
     while(!g.Get_Should_Stop()){
         g.Check_Status();

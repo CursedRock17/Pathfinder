@@ -22,9 +22,10 @@ void Graphics_Loop();
 bool Get_Should_Stop();
 void Check_Status();
 
-std::uint8_t chosen_algorithm{0};
+int Choose_Algorithm(std::string number);
 
 private:
+std::uint8_t chosen_algorithm{0};
 
 //The main functions for the SDL
 void Graphics_Init();

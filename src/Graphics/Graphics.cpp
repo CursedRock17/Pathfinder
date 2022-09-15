@@ -221,6 +221,9 @@ void GraphicsClass::Check_Status()
             //Run the BFS Algo
                 p.create_breadth_first();
                 break;
+            case 4:
+                p.create_depth_first();
+                break;
 
             default:
             //We need an algo
@@ -267,6 +270,10 @@ int GraphicsClass::Choose_Algorithm(std::string number)
     else if(number == "3"){
         chosen_algorithm = 3;
         return 3;
+    }
+    else if(number == "4"){
+        chosen_algorithm = 4;
+        return 4;
     }
 
     return -1;

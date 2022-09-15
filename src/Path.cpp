@@ -186,3 +186,37 @@ void Path::create_breadth_first()
     }
 
 }
+
+void Path::create_depth_first()
+{
+   //Clear the block_nodes excess features
+    for(int x = 0; x < grid_length; x++)
+        for(int y = 0; y < grid_height; y++){
+            block_nodes.at(y * grid_length + x).local_val = INFINITY;
+            block_nodes.at(y * grid_length + x).visited = false;
+            block_nodes.at(y * grid_length + x).parent = nullptr;
+               
+        }
+
+    std::stack<Node*> nodes_stack;
+    //Only deal with the current node when changing the stack
+    current_node = start_node;
+    nodes_stack.emplace(current_node);
+
+    while(!nodes_stack.empty() && current_node != end_node){
+        //Take and remove the top not
+        current_node = nodes_stack.top();
+        nodes_stack.pop();
+        if(!current_node->visited && !current_node->obstacle){
+            current_node->visited = true;
+            for(auto& neighbor_node : current_node->neighbors){
+                if(!neighbor_node->obstacle && !neighbor_node->visited){
+                    neighbor_node->parent = current_node;
+                    nodes_stack.emplace(neighbor_node);
+                }
+            }
+        }
+
+    }
+
+}

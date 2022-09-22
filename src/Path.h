@@ -25,13 +25,14 @@ std::array<Node, 2048> block_nodes;
 Node* start_node = nullptr;
 Node* end_node = nullptr;
 Node* current_node = nullptr;
-
 // ---------------------- Search Alogirthms ------------------- //
 void create_astar();
 void create_dijkstra();
 void create_dstar();
 void create_breadth_first();
 void create_depth_first();
+
+std::vector<Node> create_path();
 
 // ---------------------- Search Alogirthms ------------------- //
 private:

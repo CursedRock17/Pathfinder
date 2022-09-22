@@ -151,6 +151,25 @@ void Path::create_dstar()
 }
 
 
+std::vector<Node> Path::create_path()
+{
+    //Create this vector of nodes that we will give back as the appropriate path to the ending goal
+    std::vector<Node> NodesToReturn;
+
+    if(end_node != nullptr)
+        {
+            Node* pathing = end_node;
+            while(pathing->parent != nullptr)
+            {
+                //If our parent was on the path and it gets closer to the start add it to the queue
+                pathing = pathing->parent;
+                NodesToReturn.push_back(*pathing);
+            }
+        }
+
+    return NodesToReturn;
+}
+
 void Path::create_breadth_first()
 {
     std::queue<Node*> node_q;
@@ -212,11 +231,11 @@ void Path::create_depth_first()
             for(auto& neighbor_node : current_node->neighbors){
                 if(!neighbor_node->obstacle && !neighbor_node->visited){
                     neighbor_node->parent = current_node;
+                    //TODO:: ADd return type of Node
                     nodes_stack.emplace(neighbor_node);
                 }
             }
         }
 
     }
-
 }

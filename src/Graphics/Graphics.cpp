@@ -72,29 +72,22 @@ void GraphicsClass::Graphics_Update()
 
         }
         
-        if(p.end_node != nullptr)
-        {
-            Node* pathing = p.end_node;
-            while(pathing->parent != nullptr)
-            {
-                //Need to draw a path to the location
-
-                //Set the points that are apart of the path to yellow
-                //Can easily get each points x_coord and set it for the pixel
-                Pixel.x = PixelSize * pathing->x_coord;
-                Pixel.y = PixelSize * pathing->y_coord;
+        for(auto node_on_path : p.create_path()){
+            //get the current coordinate to change colors
+                Pixel.x = PixelSize * node_on_path.x_coord;
+                Pixel.y = PixelSize * node_on_path.y_coord;
 
                 SDL_SetRenderDrawColor(renderer, 247, 255, 20, 1);
 
                 //Keep the end_node as green
-                if(pathing == p.end_node)
+                if(node_on_path.x_coord == p.end_node->x_coord && node_on_path.y_coord == p.end_node->y_coord)
                     SDL_SetRenderDrawColor(renderer, 15, 97, 48, 1);
+                else if(node_on_path.x_coord == p.start_node->x_coord && node_on_path.y_coord == p.start_node->y_coord)
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 1);
+
 
                 SDL_RenderDrawRect(renderer, &Pixel);
                 SDL_RenderFillRect(renderer, &Pixel);
-
-                pathing = pathing->parent;
-            }
         }
 
 }

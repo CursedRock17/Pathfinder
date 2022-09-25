@@ -220,7 +220,7 @@ void GraphicsClass::Check_Status()
 
             default:
             //We need an algo
-                std::cout << chosen_algorithm << std::endl;
+                std::cout << "Choose a Valid Algorithm" << std::endl;
                 break;
             }
 

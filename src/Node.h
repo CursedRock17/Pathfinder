@@ -27,7 +27,8 @@ class Node {
 class D_Node : public Node {
     //In the D Star algo each node needs a list state
     public:
-    std::string NodeState{"NEW"};
+    std::string state{};
+
 };
 
 

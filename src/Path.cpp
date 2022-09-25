@@ -135,9 +135,10 @@ void Path::create_astar()
 
 void Path::create_dstar()
 {
+    //We'll need to search backwards from the goal node
     //Create our nodes to be evaluated list
-    std::list<Node*> open_list;
-    D_Node bob;
+    std::list<D_Node*> open_list;
+    D_Node* current_node;
 
     //Clear the block_nodes excess features
     for(int x = 0; x < grid_length; x++)
@@ -145,9 +146,55 @@ void Path::create_dstar()
             block_nodes.at(y * grid_length + x).local_val = INFINITY;
             block_nodes.at(y * grid_length + x).visited = false;
             block_nodes.at(y * grid_length + x).parent = nullptr;
-               
         }
 
+    //Set up and add the starting node which is actually the end node
+    current_node = static_cast<D_Node*>(end_node);
+    current_node->state = "OPEN";
+    current_node->local_val = 0;
+    current_node->global_val = 0;
+    open_list.push_back(current_node);
+
+    //For this algo k(x) is local, h(x) is global, while b(x) is the parent
+
+    while(!open_list.empty() && current_node != start_node){
+        //Creating a sorting method for k vals
+        auto sorting_k_vals = [](Node* rhs, Node* lhs){
+            return rhs->local_val > lhs->local_val;
+        };
+        open_list.sort(sorting_k_vals);
+        current_node = open_list.front();
+        //Need to remove and mark the point as closed because it's been traversed
+
+        open_list.pop_front();
+
+        double cost;
+        for(auto& neighbor : current_node->neighbors){
+            if(!neighbor->visited){
+                neighbor->local_val = 1 + current_node->local_val;
+                //If it's the first time it's been on the list
+                neighbor->global_val = neighbor->local_val;
+                //If the object is an obstacle then when need to make sure it's never in the path
+                if(neighbor->obstacle)
+                    neighbor->local_val = 10000;
+
+                //Might have to change how the backtracking will work
+                neighbor->parent = current_node;
+                open_list.push_back(static_cast<D_Node*>(neighbor));
+            }
+        }
+
+        current_node->visited = true;
+
+
+    }
+
+    //To find the path sort the h values the take the 
+    //shortest parent Path from end node to start node
+    auto sorting_h_vals = [](Node* rhs, Node* lhs){
+            return rhs->global_val > lhs->global_val;
+        };
+    open_list.sort(sorting_h_vals);
 }
 
 

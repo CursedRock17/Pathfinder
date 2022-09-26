@@ -173,19 +173,31 @@ void Path::create_dstar()
             if(!neighbor->visited){
                 neighbor->local_val = 1 + current_node->local_val;
                 //If it's the first time it's been on the list
-                neighbor->global_val = neighbor->local_val;
+                if(static_cast<D_Node*>(neighbor)->state == "NEW")
+                    neighbor->global_val = neighbor->local_val;
+                
+                if(neighbor->global_val > neighbor->local_val)
+                    static_cast<D_Node*>(neighbor)->state = "RAISE";
+
                 //If the object is an obstacle then when need to make sure it's never in the path
                 if(neighbor->obstacle)
                     neighbor->local_val = 10000;
 
                 //Might have to change how the backtracking will work
-                neighbor->parent = current_node;
+                if(neighbor->global_val < current_node->local_val){
+                    current_node->parent = neighbor;
+                    if(static_cast<D_Node*>(neighbor)->state == "CLOSED")
+                        static_cast<D_Node*>(neighbor)->state = "LOWER";
+                }
+                else 
+                    neighbor->parent = current_node;
+
                 open_list.push_back(static_cast<D_Node*>(neighbor));
             }
         }
 
+        static_cast<D_Node*>(current_node)->state = "CLOSED";
         current_node->visited = true;
-
 
     }
 

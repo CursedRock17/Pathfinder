@@ -207,6 +207,13 @@ void Path::create_dstar()
             return rhs->global_val > lhs->global_val;
         };
     open_list.sort(sorting_h_vals);
+
+    std::vector<Node*> d_star_path;
+    for(auto& lower_node : open_list){
+        d_star_path.push_back(lower_node);
+        if(lower_node == start_node)
+            break;
+    }
 }
 
 
